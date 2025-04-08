@@ -41,9 +41,14 @@ u_lvm=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes;
 # Counts the number of active TCP connections
 c_tcp=$(ss -neopt state established | wc -l)
 
+# 8.USER count
+# Counts the number of users logged in to the system
+u_log=$(users | wc -w)
 
-# USER LOG
+# 9.NETWORK data
+# Displays the IP address of the machine.
+ip=$(hostname -I)
+# Displays the MAC address
 
-# NETWORK
 
 # SUDO

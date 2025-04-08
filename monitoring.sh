@@ -29,12 +29,18 @@ p_dsk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} {ft+= $2} EN
 # Calculates CPU load: user + system
 cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')
 
+# 5.Last Reboot
+# Date and time of the last system reboot 
+d_lsr=$(who -b | awk '$1 == "system" {print $3 " " $4}')
 
-# BOOT
+# 6. LVM Info
+# Checks if LVM (Logical Volume Manager) is used
+u_lvm=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)
 
-# LVM
+# 7. TCP connection
+# Counts the number of active TCP connections
+c_tcp=$(ss -neopt state established | wc -l)
 
-# TCP
 
 # USER LOG
 

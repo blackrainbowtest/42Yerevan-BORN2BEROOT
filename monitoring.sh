@@ -27,7 +27,7 @@ p_dsk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} {ft+= $2} EN
 
 # 4.CPU load data
 # Calculates CPU load: user + system
-cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')
+l_cpu=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')
 
 # 5.Last Reboot
 # Date and time of the last system reboot 
@@ -58,8 +58,8 @@ s_cmd=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
 wall "	Architecture: $arc
 	CPU physical: $p_cpu
 	vCPU: $v_cpu
-	Memory Usage: $u_ram/${f_ram}MB ($p_ram%)
-	Disk Usage: $u_dsk/${f_dsk}Gb ($p_dsk%)
+	Memory Usage: $u_ram/${t_ram}MB ($p_ram%)
+	Disk Usage: $u_dsk/${f_dsk} ($p_dsk%)
 	CPU load: $l_cpu
 	Last boot: $d_lsr
 	LVM use: $u_lvm

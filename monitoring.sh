@@ -9,7 +9,7 @@ p_cpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l)
 # Count of Virtual CPU cores
 v_cpu=$(grep "^processor" /proc/cpuinfo | wc -l)
 
-# 2.RAM
+# 2.MEMORY usage (RAM)
 # Total RAM in megabytes
 t_ram=$(free -m | awk '$1 == "Mem:" {print $2}')
 # Used RAM in megabytes
@@ -49,6 +49,21 @@ u_log=$(users | wc -w)
 # Displays the IP address of the machine.
 ip=$(hostname -I)
 # Displays the MAC address
+mac=$(ip link | grep "link/ether" | awk '{print $2}')
 
+# 10.SUDO
+# Counts the number of commands executed via sudo using the systemd journal
+s_cmd=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
 
-# SUDO
+wall "	Architecture: $arc
+		CPU physical: $p_cpu
+		vCPU: $v_cpu
+		Memory Usage: $u_ram/${f_ram}MB ($p_ram%)
+		Disk Usage: $u_dsk/${f_dsk}Gb ($p_dsk%)
+		CPU load: $cpul
+		Last boot: $d_lsr
+		LVM use: $u_lvm
+		Connections TCP: $c_tcp ESTABLISHED
+		User log: $u_log
+		Network: IP $ip ($mac)
+		Sudo: $s_cmd cmd"
